@@ -59,3 +59,20 @@ export const InputBox = styled.div`
     border: solid 1px red;
   }
 `;
+
+export const NoExist = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  & h3 {
+    color: ${(props) => props.theme.colors.contrast};
+  }
+
+  & button {
+    margin-top: 15px;
+    background-color: ${(props) => props.theme.colors.primary};
+    color: white;
+  }
+`;
