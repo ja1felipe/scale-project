@@ -10,6 +10,7 @@ import {
 import { Container, ButtonBox, InputBox, NoExist } from './styles';
 import { Icon } from '@iconify/react';
 import sendFilled from '@iconify/icons-carbon/send-filled';
+import api from '../../services/api';
 
 interface stateType {
   name: string;
@@ -94,6 +95,7 @@ const Game: React.FC = () => {
 
   function handleHit() {
     clearInterval(interval);
+    api.create(location.state.name, attempts, timer, guess);
     history.push({
       pathname: '/end',
       state: {
@@ -103,7 +105,6 @@ const Game: React.FC = () => {
         timer: timer
       }
     });
-    console.log(attempts, timer, guess);
   }
 
   return (

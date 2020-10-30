@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import api from '../../services/api';
+import { IMatch } from '../../types/types';
 import { msToTime } from '../../utils/mille_to_time';
 
 import { Container, Table, ButtonBox } from './styles';
 
-interface IRank {
-  name: string;
-  time: number;
-  attempts: number;
-  number: number;
-}
-
 const Ranking: React.FC = () => {
+  const [data, setData] = useState<IMatch[]>([]);
+  const [page, setPage] = useState<number>(1);
+  const [total, setTotal] = useState<number>(0);
+
+  useEffect(() => {
+    api.list(page).then((res) => {
+      setTotal(res.count);
+      setData(res.results);
+    });
+  }, [page]);
+
   const columns = [
     {
       name: '#',
@@ -34,39 +40,6 @@ const Ranking: React.FC = () => {
     }
   ];
 
-  const data: IRank[] = [
-    {
-      name: 'Felipe',
-      time: 100000,
-      attempts: 12,
-      number: 113
-    },
-    {
-      name: 'Carlos',
-      time: 100000,
-      attempts: 12,
-      number: 113
-    },
-    {
-      name: 'Teodoro',
-      time: 100000,
-      attempts: 12,
-      number: 113
-    },
-    {
-      name: 'Bia',
-      time: 10000000,
-      attempts: 12,
-      number: 113
-    },
-    {
-      name: 'Pedro',
-      time: 100000,
-      attempts: 12,
-      number: 113
-    }
-  ];
-
   return (
     <Container>
       <h1 className='title'>Os melhores desafiantes, até agora...</h1>
@@ -84,7 +57,7 @@ const Ranking: React.FC = () => {
               {data.map((rank, i) => {
                 return (
                   <tr key={rank.name}>
-                    <td>{i + 1}</td>
+                    <td>{i + 1 + 5 * (page - 1)}</td>
                     <td>{rank.name}</td>
                     <td>{msToTime(rank.time)}</td>
                     <td>{rank.attempts}</td>
@@ -95,10 +68,20 @@ const Ranking: React.FC = () => {
             </tbody>
           </Table>
           <ButtonBox>
-            <button title='Página anterior' className='button'>
+            <button
+              onClick={() => setPage((prev) => prev - 1)}
+              disabled={page === 1}
+              title='Página anterior'
+              className='button'
+            >
               Anterior
             </button>
-            <button title='Próxima página' className='button'>
+            <button
+              onClick={() => setPage((prev) => prev + 1)}
+              disabled={Math.ceil(total / 5) === page}
+              title='Próxima página'
+              className='button'
+            >
               Próxima
             </button>
           </ButtonBox>

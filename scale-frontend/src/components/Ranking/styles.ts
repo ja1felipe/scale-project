@@ -35,4 +35,8 @@ export const ButtonBox = styled.div`
     color: white;
     background-color: ${(props) => props.theme.colors.secondary + 'e0'};
   }
+
+  button:disabled {
+    background-color: ${(props) => props.theme.colors.secondary};
+  }
 `;
