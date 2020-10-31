@@ -1,0 +1,8 @@
+{
+  "App": {
+    "port": "PORT",
+    "database": {
+      "mongoURI": "MONGO_URI"
+    }
+  }
+}

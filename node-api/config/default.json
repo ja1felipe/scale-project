@@ -1,0 +1,12 @@
+{
+  "App": {
+    "port": 3333,
+    "database": {
+      "mongoURI": "mongodb://localhost:27017/guessgame"
+    },
+    "logger": {
+      "enabled": true,
+      "level": "info"
+    }
+  }
+}
