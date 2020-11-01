@@ -56,9 +56,9 @@ const Ranking: React.FC = () => {
             <tbody>
               {data.map((rank, i) => {
                 return (
-                  <tr key={rank.name}>
+                  <tr key={rank.id}>
                     <td>{i + 1 + 5 * (page - 1)}</td>
-                    <td>{rank.name}</td>
+                    <td title={rank.name}>{rank.name}</td>
                     <td>{msToTime(rank.time)}</td>
                     <td>{rank.attempts}</td>
                     <td>{rank.number}</td>

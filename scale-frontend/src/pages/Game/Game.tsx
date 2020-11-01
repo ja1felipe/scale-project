@@ -21,7 +21,6 @@ const Game: React.FC = () => {
 
   const [guess, setGuess] = useState<number>(0);
   const [attempts, setAttempts] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(0);
 
   const [hint1, setHint1] = useState<string>('');
   const [hint2, setHint2] = useState<string>('');
@@ -32,22 +31,14 @@ const Game: React.FC = () => {
 
   const location = useLocation<stateType>();
   const history = useHistory();
-  const startTime = Date.now();
 
-  let interval = setInterval(function () {
-    let elapsedTime = Date.now() - startTime;
-    setTimer(elapsedTime);
-  }, 100);
+  const startTime = new Date(Date.now());
 
   useEffect(() => {
     if (!location.state.name) history.goBack();
-    return function cleanup() {
-      clearInterval(interval);
-    };
   }, []);
 
   useEffect(() => {
-    console.log(primes);
     const newGuess = primes[Math.floor(Math.random() * primes.length)];
     setGuess(newGuess);
     setAttempts((prev) => (prev += 1));
@@ -94,7 +85,8 @@ const Game: React.FC = () => {
   }
 
   function handleHit() {
-    clearInterval(interval);
+    const timer = new Date(Date.now()).getTime() - startTime.getTime();
+    console.log(timer);
     api.create(location.state.name, attempts, timer, guess);
     history.push({
       pathname: '/end',
@@ -145,7 +137,10 @@ const Game: React.FC = () => {
           </ButtonBox>
           <h2 className='subtitle'>Que tal dar alguma dica?</h2>
           <InputBox>
-            <div className='field'>
+            <div
+              title='A soma dos digitos que compoe o número vocês está pesando. (exemplo: 113 -> soma dos digitos = 5)'
+              className='field'
+            >
               <p className='control has-icons-right'>
                 <input
                   disabled={sendHint1}
@@ -174,7 +169,10 @@ const Game: React.FC = () => {
                 </span>
               </p>
             </div>
-            <div className='field'>
+            <div
+              title='O resto da divisão do seu número por 7. (exemplo: 113 % 7 = 1)'
+              className='field'
+            >
               <p className='control has-icons-right'>
                 <input
                   disabled={sendHint2}
@@ -203,7 +201,10 @@ const Game: React.FC = () => {
                 </span>
               </p>
             </div>
-            <div className='field'>
+            <div
+              title='O produto dos digitos que compoe o número vocês está pesando. (exemplo: 113 -> 1*1*3 = 6)'
+              className='field'
+            >
               <p className='control has-icons-right'>
                 <input
                   disabled={sendHint3}

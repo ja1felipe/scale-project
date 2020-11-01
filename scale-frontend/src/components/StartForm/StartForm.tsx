@@ -28,7 +28,7 @@ const StartForm: React.FC = () => {
           type='text'
           placeholder='Qual seu nome?'
         />
-        <button className='button' type='submit'>
+        <button className='button' disabled={!name} type='submit'>
           Começar!
         </button>
       </form>

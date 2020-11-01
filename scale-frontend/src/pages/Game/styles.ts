@@ -45,16 +45,42 @@ export const InputBox = styled.div`
   padding: 0 20px;
   margin-top: 15px;
   width: 700px;
+
+  @media (max-width: 690px) {
+    flex-direction: column;
+
+    & .field {
+      margin-bottom: 15px !important;
+    }
+  }
+
   & .icon {
     display: block;
     pointer-events: all !important;
     width: 1.5em !important;
     cursor: pointer;
   }
+
   & .field {
-    margin: 0 !important;
+    margin: 0;
     width: 200px;
+    position: relative;
   }
+
+  & .field[title]:hover:after {
+    content: attr(title);
+    padding: 5px;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    margin: 5px;
+    color: white;
+    border-radius: 5px;
+    font-size: 12px;
+    background-color: ${(props) => props.theme.colors.secondary + 'ac'};
+    z-index: 1;
+  }
+
   & .field .control .is-invalid {
     border: solid 1px red;
   }

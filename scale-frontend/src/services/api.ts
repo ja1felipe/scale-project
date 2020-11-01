@@ -1,7 +1,9 @@
 import axios from 'axios';
 import { IListResponse, IMatch } from '../types/types';
 
-const connection = axios.create({ baseURL: 'http://localhost:8000' });
+const connection = axios.create({
+  baseURL: 'https://localhost:3333'
+});
 
 const api = {
   async create(

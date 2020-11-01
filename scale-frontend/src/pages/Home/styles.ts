@@ -6,6 +6,7 @@ export const Container = styled.div`
   height: 100vh;
   justify-content: center;
   align-items: center;
+  flex-wrap: wrap;
 `;
 
 export const Separator = styled.div`
@@ -13,4 +14,10 @@ export const Separator = styled.div`
   background-color: ${(props) => props.theme.colors.primary};
   height: 400px;
   margin: 10px;
+
+  @media (max-width: 969px) {
+    width: 80%;
+    height: 2px;
+    margin: 40px;
+  }
 `;

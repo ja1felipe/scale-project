@@ -49,5 +49,10 @@ export const Container = styled.div`
       color: white;
       background-color: #6acd86;
     }
+
+    button:disabled {
+      background-color: #6acd86;
+      cursor: not-allowed;
+    }
   }
 `;
