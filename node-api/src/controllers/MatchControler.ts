@@ -2,6 +2,7 @@ import { Get, Post, Controller } from '@overnightjs/core';
 import { Request, Response } from 'express';
 import mongoose from 'mongoose';
 import { MatchService } from '../services/match';
+
 @Controller('matchs')
 export class MatchControler {
   @Post('')

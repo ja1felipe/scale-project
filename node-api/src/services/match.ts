@@ -1,3 +1,4 @@
+import logger from '../logger';
 import { Match } from '../models/Match';
 
 interface IMatch {
@@ -20,6 +21,9 @@ export class MatchService {
     number: number
   ): Promise<IMatch> {
     try {
+      logger.info(
+        `Creating new match with name: ${name}, attempts: ${attempts}, time: ${time} and number: ${number}`
+      );
       const match = await Match.create({
         name,
         attempts,
@@ -29,12 +33,14 @@ export class MatchService {
 
       return match;
     } catch (err) {
+      logger.error(err);
       throw err;
     }
   }
 
   public async listMatchs(page: number): Promise<IList> {
     try {
+      logger.info(`Fetching matchs on page ${page}`);
       const PAGE_SIZE = 5;
       const skip = (page - 1) * PAGE_SIZE;
       const matchs = await Match.find({})
@@ -47,6 +53,7 @@ export class MatchService {
         count
       };
     } catch (err) {
+      logger.error(err);
       throw err;
     }
   }
