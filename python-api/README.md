@@ -7,3 +7,5 @@
 - Por último rode o comando `python manage.py runserver`
 
 Protinho, com isso o server já deve estar rodando normalmente.
+
+- Uma vez rodando o server você poderá acessar http://localhost:<SUA_PORTA>/docs/
