@@ -32,7 +32,7 @@ export class MatchControler {
   @Get('')
   public async list(req: Request, res: Response): Promise<void> {
     try {
-      const { page } = req.params;
+      const { page } = req.query;
 
       const matchService = new MatchService();
 

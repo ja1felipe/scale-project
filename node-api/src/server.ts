@@ -4,6 +4,7 @@ import { Application } from 'express';
 import expressPino from 'express-pino-logger';
 import apiSchema from './api-schema.json';
 import swagger from 'swagger-ui-express';
+import cors from 'cors';
 import { MatchControler } from './controllers/MatchControler';
 import * as database from './database';
 import logger from './logger';
@@ -26,6 +27,7 @@ export class SetupServer extends Server {
         logger
       })
     );
+    this.app.use(cors());
     this.app.use('/docs', swagger.serve, swagger.setup(apiSchema));
   }
   private setupControllers(): void {
