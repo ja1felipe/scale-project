@@ -21,6 +21,7 @@ const Game: React.FC = () => {
 
   const [guess, setGuess] = useState<number>(0);
   const [attempts, setAttempts] = useState<number>(0);
+  const [timer, setTimer] = useState<number>(0);
 
   const [hint1, setHint1] = useState<string>('');
   const [hint2, setHint2] = useState<string>('');
@@ -31,12 +32,19 @@ const Game: React.FC = () => {
 
   const location = useLocation<stateType>();
   const history = useHistory();
-
-  const startTime = new Date(Date.now());
+  const startTime = Date.now();
 
   useEffect(() => {
     if (!location.state.name) history.goBack();
   }, []);
+
+  useEffect(() => {
+    let interval = setInterval(function () {
+      setTimer((prev) => (prev += 1));
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [timer]);
 
   useEffect(() => {
     const newGuess = primes[Math.floor(Math.random() * primes.length)];
@@ -85,16 +93,14 @@ const Game: React.FC = () => {
   }
 
   function handleHit() {
-    const timer = new Date(Date.now()).getTime() - startTime.getTime();
-    console.log(timer);
-    api.create(location.state.name, attempts, timer, guess);
+    api.create(location.state.name, attempts, timer * 1000, guess);
     history.push({
       pathname: '/end',
       state: {
         name: location.state.name,
         number: guess,
         attempts: attempts,
-        timer: timer
+        timer: timer * 1000
       }
     });
   }

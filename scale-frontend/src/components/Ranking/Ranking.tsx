@@ -78,7 +78,7 @@ const Ranking: React.FC = () => {
             </button>
             <button
               onClick={() => setPage((prev) => prev + 1)}
-              disabled={Math.ceil(total / 5) === page}
+              disabled={Math.ceil(total / 5) === page || total === 0}
               title='Próxima página'
               className='button'
             >
