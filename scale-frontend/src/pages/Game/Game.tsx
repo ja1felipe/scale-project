@@ -32,7 +32,6 @@ const Game: React.FC = () => {
 
   const location = useLocation<stateType>();
   const history = useHistory();
-  const startTime = Date.now();
 
   useEffect(() => {
     if (!location.state.name) history.goBack();
