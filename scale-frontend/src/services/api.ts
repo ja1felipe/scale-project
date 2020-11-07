@@ -2,7 +2,7 @@ import axios from 'axios';
 import { IListResponse, IMatch } from '../types/types';
 
 const connection = axios.create({
-  baseURL: 'https://guessgame-api.herokuapp.com'
+  baseURL: 'http://localhost:3333'
 });
 
 const api = {
