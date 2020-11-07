@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../services/api';
 import { IMatch } from '../../types/types';
-import { msToTime } from '../../utils/mille_to_time';
+import moment from 'moment';
 
 import { Container, Table, ButtonBox } from './styles';
 
@@ -59,7 +59,7 @@ const Ranking: React.FC = () => {
                   <tr key={rank.id}>
                     <td>{i + 1 + 5 * (page - 1)}</td>
                     <td title={rank.name}>{rank.name}</td>
-                    <td>{msToTime(rank.time)}</td>
+                    <td>{moment.utc(rank.time).format('HH:mm:ss')}</td>
                     <td>{rank.attempts}</td>
                     <td>{rank.number}</td>
                   </tr>

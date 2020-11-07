@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import { msToTime } from '../../utils/mille_to_time';
+import moment from 'moment';
 
 import { Container } from './styles';
 
@@ -19,7 +19,8 @@ const End: React.FC = () => {
     <Container>
       <h1 className='title'>{location.state.name} seu resultado final foi</h1>
       <p>
-        Tempo: <span>{msToTime(location.state.timer)}</span>
+        Tempo:{' '}
+        <span>{moment.utc(location.state.timer).format('HH:mm:ss')}</span>
       </p>
       <p>
         Tentativas: <span>{location.state.attempts}</span>

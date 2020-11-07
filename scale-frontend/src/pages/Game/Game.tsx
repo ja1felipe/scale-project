@@ -18,10 +18,10 @@ interface stateType {
 
 const Game: React.FC = () => {
   const [primes, setPrimes] = useState<number[]>(generateFirstArray(8000));
+  const [startTime, _] = useState<Date>(new Date());
 
   const [guess, setGuess] = useState<number>(0);
   const [attempts, setAttempts] = useState<number>(0);
-  const [timer, setTimer] = useState<number>(0);
 
   const [hint1, setHint1] = useState<string>('');
   const [hint2, setHint2] = useState<string>('');
@@ -38,40 +38,21 @@ const Game: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    let interval = setInterval(function () {
-      setTimer((prev) => (prev += 1));
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, [timer]);
-
-  useEffect(() => {
     const newGuess = primes[Math.floor(Math.random() * primes.length)];
     setGuess(newGuess);
     setAttempts((prev) => (prev += 1));
   }, [primes]);
 
-  function handleSendHint1() {
-    if (!isNaN(Number(hint1)) && !sendHint1 && hint1 !== '') {
-      const newArr = removeSumNumberFromArray(Number(hint1), [...primes]);
+  function handleSendHints(
+    hint: string,
+    sendFlag: boolean,
+    processFunction: (number: number, arr: number[]) => number[],
+    setHint: (value: React.SetStateAction<boolean>) => void
+  ) {
+    if (!isNaN(Number(hint)) && !sendFlag && hint !== '') {
+      const newArr = processFunction(Number(hint), [...primes]);
       setPrimes(newArr);
-      setSendHint1(true);
-    }
-  }
-
-  function handleSendHint2() {
-    if (!isNaN(Number(hint2)) && !sendHint2 && hint2 !== '') {
-      const newArr = removeRestNumberFromArray(Number(hint2), [...primes]);
-      setPrimes(newArr);
-      setSendHint2(true);
-    }
-  }
-
-  function handleSendHint3() {
-    if (!isNaN(Number(hint3)) && !sendHint3 && hint3 !== '') {
-      const newArr = removeProductNumberFromArray(Number(hint3), [...primes]);
-      setPrimes(newArr);
-      setSendHint3(true);
+      setHint(true);
     }
   }
 
@@ -92,14 +73,15 @@ const Game: React.FC = () => {
   }
 
   function handleHit() {
-    api.create(location.state.name, attempts, timer * 1000, guess);
+    const timer = new Date().getTime() - startTime.getTime();
+    api.create(location.state.name, attempts, timer, guess);
     history.push({
       pathname: '/end',
       state: {
         name: location.state.name,
         number: guess,
         attempts: attempts,
-        timer: timer * 1000
+        timer: timer
       }
     });
   }
@@ -167,7 +149,14 @@ const Game: React.FC = () => {
                         : 'pointer',
                     pointerEvents: isNaN(Number(hint1)) ? 'none' : 'all'
                   }}
-                  onClick={handleSendHint1}
+                  onClick={() =>
+                    handleSendHints(
+                      hint1,
+                      sendHint1,
+                      removeSumNumberFromArray,
+                      setSendHint1
+                    )
+                  }
                   className='icon is-small is-right'
                 >
                   <Icon icon={sendFilled} />
@@ -199,7 +188,14 @@ const Game: React.FC = () => {
                         : 'pointer',
                     pointerEvents: isNaN(Number(hint2)) ? 'none' : 'all'
                   }}
-                  onClick={handleSendHint2}
+                  onClick={() =>
+                    handleSendHints(
+                      hint2,
+                      sendHint2,
+                      removeRestNumberFromArray,
+                      setSendHint2
+                    )
+                  }
                   className='icon is-small is-right'
                 >
                   <Icon icon={sendFilled} />
@@ -231,7 +227,14 @@ const Game: React.FC = () => {
                         : 'pointer',
                     pointerEvents: isNaN(Number(hint3)) ? 'none' : 'all'
                   }}
-                  onClick={handleSendHint3}
+                  onClick={() =>
+                    handleSendHints(
+                      hint3,
+                      sendHint3,
+                      removeProductNumberFromArray,
+                      setSendHint3
+                    )
+                  }
                   className='icon is-small is-right'
                 >
                   <Icon icon={sendFilled} />
